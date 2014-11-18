@@ -15,7 +15,9 @@ RETVAL=$?
 case "$1" in
 start)
         echo "Starting Tomcat"
+        if [ ! -f <% node['tomcat-all']['install_directory'] %>/tomcat/catalina.pid ]; then
         exec su -l $TOMCAT_USER -c "$CATALINA_HOME/bin/catalina.sh start"
+        fi
 ;;
 
 stop)
