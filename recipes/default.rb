@@ -59,5 +59,6 @@ end
 
 # Enabling tomcat service and starting
 service 'tomcat' do
-  action [:enable, :start]
+  only_if File.exist?("node['tomcat-all']['install_directory']/tomcat/catalina.pid") == false
+  action [:enable, :restart]
 end
