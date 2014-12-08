@@ -20,6 +20,7 @@ user node['tomcat-all']['user'] do
   group node['tomcat-all']['group']
   system true
   shell '/bin/bash'
+  home "#{node['tomcat-all']['install_directory']}/tomcat"
 end
 
 # Download and unpack tomcat
@@ -59,6 +60,5 @@ end
 
 # Enabling tomcat service and starting
 service 'tomcat' do
-  not_if { File.exist?("#{node['tomcat-all']['install_directory']}/tomcat/catalina.pid") }
   action [:enable, :start]
 end

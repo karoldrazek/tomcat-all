@@ -16,11 +16,8 @@ platforms:
       apt:
         compiletime: true
 
-  - name: centos-6.4
-    driver_config:
-      network:
-      - ["private_network", {ip: "33.33.33.11"}]
-
+  - name: centos-6.5
+   
 suites:
   - name: default
     run_list:
