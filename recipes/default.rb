@@ -45,20 +45,23 @@ template node['tomcat-all']['install_directory'] + "/tomcat/conf/server.xml" do
   notifies :create, "template[#{node['tomcat-all']['install_directory']}/tomcat/bin/catalina.sh]", :immediately
 end
 
-# Tomcat catalina configuration
-template node['tomcat-all']['install_directory'] + "/tomcat/bin/catalina.sh" do
-  source 'catalina.conf.erb'
-  notifies :create, "template[/etc/init.d/tomcat]", :immediately
-end
-
 # Tomcat init script configuration
 template '/etc/init.d/tomcat' do
   source 'init.conf.erb'
   mode '0755'
-  action :nothing
+end
+
+service 'tomcat' do
+  action [:enable]
+end
+
+# Tomcat catalina configuration
+template node['tomcat-all']['install_directory'] + "/tomcat/bin/catalina.sh" do
+  source 'catalina.conf.erb'
+  notifies :restart, 'service[tomcat]', :delayed
 end
 
 # Enabling tomcat service and starting
 service 'tomcat' do
-  action [:enable, :start]
+  action [:start]
 end
